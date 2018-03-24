@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="js/require.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        require.config({
+            'baseUrl' : './js',  //默认引用模块路径
+            'paths' : {
+                'jquery' : '../dist/jquery-3.2.1.min',  //自定义引用模块路径 (注意是../返回上级路径)
+            },
+            'shim' : {
+                // 'b' :{
+                //     'deps' : ['jquery','a']   //模块依赖关系 或者用define，export(export为非标准化的写法！！！)
+                // },
+                'b' :{
+                    'deps' : ['a']   //用a中用define有jquery，jquery为公用的，所以b可以不写
+                },
+                'c' :{
+                    'export' : 'changeTxtSize'
+                }
+            }
+        })
+        require(["b","c"],function(b,c){   //数组的顺序，是回调中传参的顺序
+            console.log($("body"))
+            console.log("回调函数")
+            //c.changeTxtSize()  //c用define时
+            changeTxtSize()   //c用export 直接调用函数
+        })
+        
+        alert(4)
+
+
+        //$("body").css("margin",'400px')  //无法引用jquery,应为写在文档中的发生在加载之前
+        setTimeout(function(){
+            console.log(2)
+            $("body").css("margin",'400px')  //可以。。。
+        },2000)
+    </script>
+</head>
+<body>
+    <p class="p">ddd</p>
+</body>
+</html>
